@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <title>Veggie VS Zombies</title>
+<!--    <link rel="stylesheet" href="">-->
+    <script src="lib/quintus.js"></script>
+    <script src="lib/quintus_sprites.js"></script>
+    <script src="lib/quintus_scenes.js"></script>
+    <script src="lib/quintus_input.js"></script>
+    <script src="lib/quintus_anim.js"></script>
+    <script src="lib/quintus_2d.js"></script>
+    <script src="lib/quintus_touch.js"></script>
+    <script src="lib/quintus_ui.js"></script>
+    <script src="lib/quintus_audio.js"></script>
+    <script src="scripts/zombies-gui.js"></script>
+    <script src="scripts/zombies-enemies.js"></script>
+    <script src="scripts/zombies-plants.js"></script>
+    <script src="scripts/zombies-gameplay.js"></script>
+</head>
+
+<body style="background-color: black; margin: 0px; border: 0px;">
+    <script>
+        window.addEventListener("load", function() {
+            var Q = window.Q = Quintus({development: true})
+            .include('Sprites, Scenes, 2D, UI, Input, Touch')
+            .include('ZombiesGUI, ZombiesEnemies, ZombiesPlants, ZombiesGameplay')
+            .setup({
+                width: 1080,
+                height: 720,
+                scaleToFit: true
+            })
+            
+            //Turn Off Gravity
+            Q.gravityX = 0;
+            Q.gravityY = 0;
+            
+            //constants
+            Q.SPRITE_SUN = 2;
+            Q.SPRITE_ZOMBIE = 4;
+            Q.SPRITE_PLANT = 8;
+            Q.SPRITE_BULLET = 16;
+            Q.SPRITE_GROUND = 32;
+            Q.SPRITE_UI = 64;
+                     
+            //enable Touch
+            Q.touch(Q.SPRITE_SUN | Q.SPRITE_GROUND | Q.SPRITE_UI);
+
+            Q.scene("level", function(stage){
+                
+//                var level = new Q.level();
+                 var level = new Q.level({levelData: stage.options['levelData']});               
+                stage.insert(level);
+                
+                
+                
+//                var sprite2 = new Q.Zombie({
+//                    x: 500,
+//                    y: 600,
+//                    asset: Q.zombieTypes['skelleton'].asset,
+//                    vx: Q.zombieTypes['skelleton'].vx
+//                })
+                
+                var sprite2 = new Q.Zombie(
+                    Q._extend({x: 500, y: 600}, Q.zombieTypes['skelleton'])
+                );
+                
+//                var sprite3 = new Q.Zombie({
+//                    x: 700,
+//                    y: 100,
+//                    asset: Q.zombieTypes['basic'].asset,
+//                    vx: Q.zombieTypes['basic'].vx
+//                })
+                
+                var sprite3 = new Q.Zombie(
+                    Q._extend({x: 700, y: 100}, Q.zombieTypes['chicken'])
+                );
+                
+//                var sprite4 = new Q.Zombie({
+//                    x: 700,
+//                    y: 600,
+//                    asset: Q.zombieTypes['basic'].asset,
+//                    vx: Q.zombieTypes['basic'].vx
+//                })
+                
+                var sprite4 = new Q.Zombie(
+                    Q._extend({x: 700, y: 600}, Q.zombieTypes['basic'])
+                );
+                
+//                console.log(sprite2.p);
+                var plant1 = new Q.Plant(
+                    Q._extend({x: 300, y: 600}, Q.plantTypes['sunflower'])
+                );
+                
+                var plant2 = new Q.Plant(
+                    Q._extend({x: 300, y: 100}, Q.plantTypes['carnivorous'])
+                );
+                                
+                Q.stage(0).insert(level);
+                
+                Q.stage(0).insert(plant1);
+                Q.stage(0).insert(plant2);
+                
+//                Q.stage(0).insert(sprite2);
+                Q.stage(0).insert(sprite3);
+                Q.stage(0).insert(sprite4);
+        
+                var sidePanel = new Q.SidePanel();
+                stage.insert(sidePanel);
+            })
+            
+            Q.load("background.png, sun.png, zombie1.png, zombie2.png, zombie3.png, chicken.png, carnivorousplant.png, corn.png, chilli.png, sunflower.png, bullet.png, level1.json", function() {
+//                Q.state.reset({sun: 120})
+            Q.state.reset({sun: 100})
+//                Q.stageScene("level", 0);
+            Q.stageScene("level", {levelData: Q.assets['level1.json']});
+//                Q.stageScene("sun", 1);
+            Q.stageScene("sun", 1);
+//                
+//                var sun1 = new Q.Sun();
+//                var sun2 = new Q.Sun();
+//                var sun3 = new Q.Sun();
+//                var sun4 = new Q.Sun();
+//                var sun5 = new Q.Sun();
+//                
+//                Q.stage(1).insert(sun1);
+//                Q.stage(1).insert(sun2);
+//                Q.stage(1).insert(sun3);
+//                Q.stage(1).insert(sun4);
+//                Q.stage(1).insert(sun5);
+            
+                
+            })
+        });
+    </script>
+    
+</body>
+</html>
